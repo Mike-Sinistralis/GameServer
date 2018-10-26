@@ -9,14 +9,14 @@ const io = socketIo(server);
 const clients = new Clients();
 
 io.on('connection', client => {
-  clients.connect('someId', client);
+  clients.connect(client.id, client);
   console.log(`${client} has connected`);
 
   client.on('echo', () => client.emit('test', 'hello'));
 
   setTimeout(() => { client.emit('test', 'aloha')}, 5000);
 
-  client.on('disconnect', () => clients.disconnect('someId'));
+  client.on('disconnect', () => clients.disconnect(client.id));
 });
 
 server.listen(3000);
